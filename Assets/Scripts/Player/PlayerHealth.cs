@@ -10,6 +10,7 @@ public class PlayerHealth : MonoBehaviour
     public AudioClip deathClip;
     public float flashSpeed = 5f;
     public Color flashColor = new Color(1, 0, 0, 0.1f);
+    public Text gameOverText;
 
     private Animator anim;
     private AudioSource playerAudio;
@@ -52,10 +53,18 @@ public class PlayerHealth : MonoBehaviour
     private void Death()
     {
         isDeath = true;
-        anim.SetTrigger("Death");
+        anim.SetTrigger("IsDeath");
         playerAudio.clip = deathClip;
         playerAudio.Play();
         playerMovement.enabled = false;
+        Invoke("UpdatePanel", 2f);
     }
 
+    private void UpdatePanel()
+    {
+        gameOverText.gameObject.SetActive(true);
+        var manager = FindObjectOfType<GameManager>();
+        manager.isGameOver = true;
+        manager.ActivePanel();
+    }
 }

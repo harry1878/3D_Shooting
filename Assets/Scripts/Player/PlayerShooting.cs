@@ -15,6 +15,7 @@ public class PlayerShooting : MonoBehaviour
     private AudioSource gunAudio;
     private Light gunLight;
     private float effectDisplayTime = 0.2f;
+    private PlayerHealth playerHealth;
 
     private void Awake()
     {
@@ -23,10 +24,13 @@ public class PlayerShooting : MonoBehaviour
         gunLine = GetComponent<LineRenderer>();
         gunAudio = GetComponent<AudioSource>();
         gunLight = GetComponent<Light>();
+        playerHealth = transform.parent.GetComponent<PlayerHealth>();
     }
 
     private void Update()
     {
+        if (playerHealth.currentHealth <= 0) return;
+
         timer += Time.deltaTime;
 
         if (Input.GetButton("Fire1") && timer >=
